@@ -13,6 +13,10 @@ export const action =
     console.log(store);
     const formData = await request.formData();
     const data = Object.fromEntries(formData);
+    if (data.phoneNumber < Math.pow(10, 9)) {
+      toast.warning("Phone number should be of 10 digits");
+      return null;
+    }
     const cartState = store.getState().cartState;
     const userState = store.getState().userState;
     const { cartTotal, shipping, tax, orderTotal } = store.getState().cartState;

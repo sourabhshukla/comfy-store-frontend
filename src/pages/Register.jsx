@@ -8,6 +8,24 @@ import axios from "axios";
 export const action = async ({ request }) => {
   const formData = await request.formData();
   const data = Object.fromEntries(formData);
+  const regex =
+    /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
+  if (!regex.test(data.email)) {
+    toast.warning("Email is not valid");
+    return null;
+  }
+  const password = data.password;
+
+  if (password.length < 8) {
+    toast.warning("Password should be at least 8 characters long");
+    return null;
+  }
+  if (!/^(?=.*[0-9])(?=.*[a-zA-Z])[a-zA-Z0-9]+$/.test(password)) {
+    toast.warning(
+      "Password should have atleast one alphabet and atleast one number"
+    );
+    return null;
+  }
   console.log(data);
 
   try {
